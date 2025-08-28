@@ -41,9 +41,11 @@ Current code can be run with Docker Compose:
 
 1.  Install Docker including Docker Compose.
 2.  Obtain a RealTimeTrains API key from https://api.rtt.io/
-3.  In the `src` folder, copy `creds_template.php` to `creds.php`, then add your
+3.  Clone the repo and run `git submodule update --init` in the repo root to
+    pull dependencies.
+4.  In the `src` folder, copy `creds_template.php` to `creds.php`, then add your
     API credentials to the parameters.
-4.  Start Docker Compose by simply running `docker compose up` in the root repo 
+5.  Start Docker Compose by simply running `docker compose up` in the root repo 
     directory, then visiting http://localhost:8000.
 
 ## Roadmap ##
