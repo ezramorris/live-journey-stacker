@@ -1,7 +1,7 @@
 <?php
 
-require_once('smarty/libs/Smarty.class.php');
-require_once('status.php');
+require_once('lib/smarty/libs/Smarty.class.php');
+require_once('lib/status.php');
 
 use Smarty\Smarty;
 

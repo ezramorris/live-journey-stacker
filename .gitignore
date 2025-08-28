@@ -1,4 +1,5 @@
-/src/creds.php
+# Ignore credentials file.
+creds.php
 
 # Smarty
 /src/templates_c

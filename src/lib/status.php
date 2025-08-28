@@ -1,10 +1,7 @@
 <?php
 
-define('RTT_BASE_URL', 'https://api.rtt.io/api/v1/json/service');
-define('LATE_DELAY', new DateInterval('PT5M'));  # 5 mins
-
-require_once('creds.php');
-
+require_once(__DIR__.'/../config/config.php');
+require_once(__DIR__.'/../config/creds.php');
 
 enum TrainStopPlatformStatus: string {
     # These are possible statuses relating to a train near a platform.
