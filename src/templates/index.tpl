@@ -4,7 +4,7 @@
         <title>Live Journey Stacker</title>
     </head>
     <body>
-        <form action="journey.php" method="get">
+        <form action="journey/create.php" method="get">
             <h2>When do you want to travel?</h2>
             <div><label for="date">Date: </label><input type="date" name="date" id="date"></div>
             <h2>Enter first leg:</h2>

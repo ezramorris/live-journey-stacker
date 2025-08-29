@@ -2,6 +2,7 @@
 
 require_once(__DIR__.'/../config/config.php');
 require_once(__DIR__.'/../config/creds.php');
+require_once(__DIR__.'/journey_model.php');
 
 enum TrainStopPlatformStatus: string {
     # These are possible statuses relating to a train near a platform.
@@ -89,7 +90,7 @@ class TrainStopStatus {
 }
 
 
-class TrainLeg {
+class TrainLegStatus {
     # Holds info & status of a train leg.
 
     public string $toc;
@@ -99,12 +100,12 @@ class TrainLeg {
     public TrainStopStatus $alighting_stop_status;
 
     public static function parse(DateTimeImmutable $date, $service_data, $boarding_crs, $alighting_crs) {
-        # Parse service data returned from RTT Pull API into a TrainLegStatus and return it.
+        # Parse service data returned from RTT Pull API into a TrainLegStatusStatus and return it.
         # $date is the date of the journey.
         # $service_data is the data returned by RTT API.
         # $boarding_crs and $alighting_crs are 3-letter (CRS) station codes.
 
-        $status = new TrainLeg();
+        $status = new TrainLegStatus();
 
         # Parse TOC.
         $status->toc = $service_data['atocName'];
@@ -145,15 +146,14 @@ class TrainLeg {
 }
    
 
-function get_train_leg(string $serviceId, DateTimeImmutable $date,
-        string $boarding_crs, string $alighting_crs) {
+function get_train_leg_status(DateTimeImmutable $date, TrainLeg $leg) {
     # Update status from RealTimeTrains.
     # $serviceId is the RTT service ID (e.g. A12345).
     # $date is the date the service is running (time portion not used).
 
     $url = implode('/', [
         RTT_BASE_URL, 
-        $serviceId,
+        $leg->train_uid,
         $date->format('Y'),
         $date->format('m'),
         $date->format('d')
@@ -169,5 +169,5 @@ function get_train_leg(string $serviceId, DateTimeImmutable $date,
 
     $data = json_decode($response, true);
 
-    return TrainLeg::parse($date, $data, $boarding_crs, $alighting_crs);
+    return TrainLegStatus::parse($date, $data, $leg->boarding_crs, $leg->alighting_crs);
 }
