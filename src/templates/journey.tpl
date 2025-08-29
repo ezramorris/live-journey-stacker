@@ -30,8 +30,8 @@
                 <td class="delay">{$status->delay_mins|string_format:"%+d" ?? ""}</td>
                 <td class="platform">{$status->platform}</td>
                 {/foreach}
-                <td class="service-info" rowspan="2">{$leg->toc} to {$leg->destination_name}</td>
-                <td class="link" rowspan="2"><a href="{$leg->url}">View</a></td>
+                <td class="service-info">{$leg->toc} to {$leg->destination_name}</td>
+                <td class="link"><a href="{$leg->url}">View</a></td>
             </tr>
             {/foreach}
         </table>

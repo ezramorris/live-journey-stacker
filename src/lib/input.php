@@ -5,8 +5,9 @@
 
 require_once(__DIR__ . '/journey_model.php');
 
-define('CRS_REGEX', '[A-Z0-9]{3}');
+define('TRAIN_CRS_REGEX', '[A-Z]{3}');
 define('TRAIN_UID_REGEX', '[A-Z0-9]{6}');
+define('TRAIN_LEG_REGEX', 'T-' . TRAIN_UID_REGEX . '-' . TRAIN_CRS_REGEX . '-' . TRAIN_CRS_REGEX);
 
 function die_with_400() {
     # Sends a 400 to the user then dies.
@@ -34,7 +35,7 @@ function parse_train_uid(string $uid) {
 }
 
 function parse_crs(string $crs) {
-    validate_regexp_or_die($crs, '/^' . CRS_REGEX . '$/');
+    validate_regexp_or_die($crs, '/^' . TRAIN_CRS_REGEX . '$/');
     return $crs;
 }
 
@@ -48,10 +49,13 @@ function parse_date(string $date_string) {
 
 function parse_legs(string $legs_string) {
     # Parses a legs parameter into an array of Legs.
-    # TODO: make this parse more than one leg.
-    validate_regexp_or_die($legs_string, '/^T-' . TRAIN_UID_REGEX . '-' . CRS_REGEX . '-' . CRS_REGEX . '$/');
-    [$type, $uid, $board, $alight] = explode('-', $legs_string, 4);
-    return array(
-        new TrainLeg($uid, $board, $alight)
-    );
+    $re = '/^' . TRAIN_LEG_REGEX . '(?:_' . TRAIN_LEG_REGEX .  ')*$/';
+    validate_regexp_or_die($legs_string, $re);
+    $leg_strings = explode('_', $legs_string);
+    $legs = array();
+    foreach ($leg_strings as $string) {
+        [$type, $uid, $board, $alight] = explode('-', $string, 4);
+        $legs[] = new TrainLeg($uid, $board, $alight);
+    }
+    return $legs;
 }
