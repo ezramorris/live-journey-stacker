@@ -15,5 +15,6 @@
             <div><input type="submit" value="Submit"></div>
             <div><input type="reset" value="Reset"></div>
         </form>
+        {include file='footer.tpl'}
     </body>
 </html>

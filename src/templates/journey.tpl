@@ -35,5 +35,6 @@
             </tr>
             {/foreach}
         </table>
+        {include file='footer.tpl'}
     </body>
 </html>

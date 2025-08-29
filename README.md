@@ -79,3 +79,21 @@ functional cookies will become necessary.
 If the app becomes popular and needs special hosting of its own, ads and/or
 subscription may be necessary. Only "well behaved" ads will be used, e.g.
 a small one at the bottom of the screen.
+
+## Copyright, data sources & licensing ##
+
+Copyright &copy; 2025 Ezra Morris
+
+Licensed under [MIT License][1]
+
+Uses data from [Realtime Trains][2]
+
+Uses [Smarty][3], licenced under [GNU Lesser General Public License][4], which references [GNU GPL][5]
+
+
+[1]: LICENSE
+[2]: http://www.realtimetrains.co.uk/
+[3]: https://github.com/smarty-php/smarty/tree/master
+[4]: https://github.com/smarty-php/smarty/blob/master/LICENSE
+[5]: https://www.gnu.org/licenses/gpl-3.0.en.html
+
