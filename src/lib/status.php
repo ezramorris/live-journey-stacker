@@ -88,8 +88,8 @@ class TrainStopStatus {
 }
 
 
-class TrainLegStatus {
-    # Holds status of a train leg.
+class TrainLeg {
+    # Holds info & status of a train leg.
 
     public string $toc;
     public string $destination_name;
@@ -102,7 +102,7 @@ class TrainLegStatus {
         # $service_data is the data returned by RTT API.
         # $boarding_crs and $alighting_crs are 3-letter (CRS) station codes.
 
-        $status = new TrainLegStatus();
+        $status = new TrainLeg();
 
         # Parse TOC.
         $status->toc = $service_data['atocName'];
@@ -139,7 +139,7 @@ class TrainLegStatus {
 }
    
 
-function get_train_leg_status(string $serviceId, DateTimeImmutable $date,
+function get_train_leg(string $serviceId, DateTimeImmutable $date,
         string $boarding_crs, string $alighting_crs) {
     # Update status from RealTimeTrains.
     # $serviceId is the RTT service ID (e.g. A12345).
@@ -163,7 +163,5 @@ function get_train_leg_status(string $serviceId, DateTimeImmutable $date,
 
     $data = json_decode($response, true);
 
-    // print_r($data);
-
-    return TrainLegStatus::parse($date, $data, $boarding_crs, $alighting_crs);
+    return TrainLeg::parse($date, $data, $boarding_crs, $alighting_crs);
 }

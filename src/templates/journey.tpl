@@ -9,7 +9,6 @@
             {foreach $legs as $leg}
             <li class="leg train-leg">
                 <div class="boarding-stop">
-                    <div class="stop-name">{$leg->status->destination_name|escape}</div>
                 </div>
             </li>
             {/foreach}
