@@ -24,7 +24,17 @@ function parse_RTT_time(DateTimeImmutable $base_datetime, string $rtt_time_str) 
     
     $hour = (int)substr($rtt_time_str, 0, 2);
     $min = (int)substr($rtt_time_str, 2, 2);
-    return $base_datetime->setTime($hour, $min);
+
+    # RTT API uses UTC times, so switch to UTC when setting times.
+    $dt = $base_datetime->setTimezone(new DateTimeZone('UTC'))->setTime($hour, $min)->setTimezone(TIMEZONE);
+
+    # If it's less than where we started, add a day, as the time has wrapped.
+    # e.g. gone from 23:59 -> 00:00.
+    if ($dt < $base_datetime) {
+        $dt = $dt->add(new DateInterval('P1D'));
+    }
+
+    return $dt;
 }
 
 
@@ -45,9 +55,9 @@ class TrainStopStatus {
     public string $platform;
     public bool $is_platform_confirmed;
 
-    public static function parse(DateTimeImmutable $date, $stop_data, bool $use_arrival) {
+    public static function parse(DateTimeImmutable $start_datetime, $stop_data, bool $use_arrival) {
         # Parse an RTT location object into a TrainStopStatus and return it.
-        # $date is the date of the journey.
+        # $start_datetime is the date/time of when this service started.
         # $stop_data is one item from RTT ['locations'][] array.
         # If $use_arrival is TRUE, then the arrival time will be used instead of departure time.
 
@@ -56,8 +66,8 @@ class TrainStopStatus {
 
         $status = new TrainStopStatus();
         $status->stop_name = $stop_data['description'];
-        $status->scheduled_time = parse_RTT_time($date, $stop_data["gbttBooked$when"]) ?? NULL;
-        $status->realtime_time = parse_RTT_time($date, $stop_data["realtime$when"]) ?? NULL;
+        $status->scheduled_time = parse_RTT_time($start_datetime, $stop_data["gbttBooked$when"]) ?? NULL;
+        $status->realtime_time = parse_RTT_time($start_datetime, $stop_data["realtime$when"]) ?? NULL;
         
         # We calculate our own delay instead of using RTT's bc RTT only reports a delay once train has arrived.
         $status->delay_mins = ($status->realtime_time->getTimestamp() - 
@@ -93,7 +103,7 @@ class TrainStopStatus {
 class TrainLegStatus {
     # Holds info & status of a train leg.
 
-    public string $toc;
+    public ?string $toc;
     public string $destination_name;
     public string $url;
     public TrainStopStatus $boarding_stop_status;
@@ -108,7 +118,7 @@ class TrainLegStatus {
         $status = new TrainLegStatus();
 
         # Parse TOC.
-        $status->toc = $service_data['atocName'];
+        $status->toc = $service_data['atocName'] ?? NULL;
 
         # Parse destination name.
         # Normally this would just be one but sometimes can be more!
@@ -136,6 +146,10 @@ class TrainLegStatus {
                 break;
             }
         }
+
+        # Set up date with time of first location.
+        # This is to allow calculation of time "wrapping around" to next day.
+        $date = parse_RTT_time($date, $service_data['locations'][0]['gbttBookedDeparture']);
 
         # Parse boarding station info.
         $status->boarding_stop_status = TrainStopStatus::parse($date, $boarding_data, FALSE);
