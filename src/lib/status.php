@@ -94,6 +94,7 @@ class TrainLeg {
 
     public string $toc;
     public string $destination_name;
+    public string $url;
     public TrainStopStatus $boarding_stop_status;
     public TrainStopStatus $alighting_stop_status;
 
@@ -115,6 +116,10 @@ class TrainLeg {
             $destination_names[] = $destination['description'];
         }
         $status->destination_name = implode(', ', $destination_names);
+
+        # Create URL.
+        $status->url = 'https://www.realtimetrains.co.uk/service/gb-nr:' . 
+            $service_data['serviceUid'] . '/' . $date->format('Y-m-d');
 
         # Pull out the info for boarding and alighting stations.
         $boarding_data = null;
