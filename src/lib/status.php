@@ -33,7 +33,7 @@ class TrainStopStatus {
     public string $stop_name;
     public ?DateTimeImmutable $scheduled_time;
     public ?DateTimeImmutable $realtime_time;
-    public ?DateInterval $delay;
+    public ?int $delay_mins;
     public bool $is_late;
     # After train has arrived/departed, the realtime time is no longer an estimate.
     public bool $is_realtime_time_actual;
@@ -59,7 +59,8 @@ class TrainStopStatus {
         $status->realtime_time = parse_RTT_time($date, $stop_data["realtime$when"]) ?? NULL;
         
         # We calculate our own delay instead of using RTT's bc RTT only reports a delay once train has arrived.
-        $status->delay = $status->scheduled_time->diff($status->realtime_time) ?? NULL;
+        $status->delay_mins = ($status->realtime_time->getTimestamp() - 
+                               $status->scheduled_time->getTimestamp()) / 60 ?? NULL;
 
         # Can't compare DateIntervals, but can compare DateTimeImmutable.
         # So, we add our max delay to the scheduled time and see if the realtime time is past it.
