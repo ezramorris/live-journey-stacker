@@ -8,4 +8,8 @@ use Smarty\Smarty;
 
 # $smarty is made available to all pages for rendering.
 $smarty = new Smarty();
-$smarty->setCaching(Smarty::CACHING_OFF);
+$smarty->setEscapeHtml(true);
+if (getenv('DEBUG')) {
+    $smarty->setDebugging(true);
+    $smarty->assign('request', $_REQUEST);
+}

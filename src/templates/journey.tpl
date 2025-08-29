@@ -13,9 +13,5 @@
             </li>
             {/foreach}
         </ol>
-        <h2>GET params</h2>
-        <pre>{$get|debug_print_var}</pre>
-        <h2>Status data</h2>
-        <pre>{$legs|debug_print_var}</pre>
     </body>
 </html>

@@ -16,5 +16,4 @@ $legs = array(
 );
 
 $smarty->assign('legs', $legs);
-$smarty->assign('get', $_GET);
 $smarty->display('journey.tpl');

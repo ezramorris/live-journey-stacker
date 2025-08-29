@@ -1,6 +1,8 @@
 services:
   php:
     image: php:8.3-apache
+    environment:
+      - DEBUG=true
     volumes:
       - type: bind
         source: ./src
