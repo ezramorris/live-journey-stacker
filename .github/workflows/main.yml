@@ -1,0 +1,16 @@
+name: Build & Deploy
+
+on:
+  push:
+
+permissions:
+  contents: read
+
+jobs:
+  prep:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v5
+      with:
+        submodules: true
