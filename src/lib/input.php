@@ -16,12 +16,18 @@ function die_with_400(string $description) {
     exit('Bad input: ' . $description);
 }
 
-function validate_or_die(string $value, int $filter, array|int $options, string $error_description) {
+function validate_or_die(string $value, int $filter, array $options, string $error_description) {
     # Validates an input against a specified filter (see filter_var doc).
+    # If successful, returns the result.
     # If filter fails, then send a 400.
-    if (!filter_var($value, $filter, $options)) {
+
+    # Set failure result to null to differentiate with valid false-y results.
+    $options['flags'] = ($options['flags'] ?? 0) | FILTER_NULL_ON_FAILURE;
+    $result = filter_var($value, $filter, $options);
+    if (is_null($result)) {
         die_with_400($error_description);
     }
+    return $result;
 }
 
 function validate_regexp_or_die(string $value, string $regexp, string $error_description) {
@@ -41,36 +47,60 @@ function parse_crs(string $crs) {
 
 function parse_date(string $date_string) {
     $date = DateTimeImmutable::createFromFormat('Y-m-d', $date_string, TIMEZONE);
-    $year = (int)($date->format('Y'));
-    if (!$date or $year < 2000 or $year > 2099) {
+    if (!$date) {
         die_with_400('invalid date');
+    }
+    $year = (int)($date->format('Y'));
+    if ($year < 2000 or $year > 2099) {
+        die_with_400('year out of range');
     }
     return $date;
 }
 
-function parse_legs(string $legs_string) {
-    # Parses a legs parameter into an array of Legs.
-    $leg_strings = explode('-', $legs_string);
-    $legs = array();
-    foreach ($leg_strings as $string) {
-        if (strlen($string) != 19) {
+function parse_int(string $value, ?int $min=null, ?int $max=null) {
+    $options = [];
+    if (!is_null($min)) {
+        $options['min_range'] = $min;
+    }
+    if (!is_null($max)) {
+        $options['max_range'] = $max;
+    }
+    return validate_or_die($value, FILTER_VALIDATE_INT, ['options'=>$options], 'invalid int');
+}
+
+function split_journey(string $journey_string) {
+    # Splits a journey string into legs.
+
+    # If empty string, explode() returns an array with an empty string in.
+    if (!$journey_string) {
+        return [];
+    }
+
+    return explode('-', $journey_string);
+}
+
+function parse_leg(string $leg_string) {
+        if (strlen($leg_string) != 19) {
             die_with_400('leg string wrong length');
         }
 
-        $type = substr($string, 0, 1);
+        $type = substr($leg_string, 0, 1);
         if ($type != 'T') {
             die_with_400('unknown leg type');
         }
 
-        $date_str = substr($string, 1, 6);
-        $date = DateTimeImmutable::createFromFormat('Ymd', '20' . $date_str) or die_with_400('invalid date');
+        $date_str = substr($leg_string, 1, 6);
+        $date = DateTimeImmutable::createFromFormat('Ymd', '20'.$date_str) or die_with_400('invalid date');
 
-        $uid = parse_train_uid(substr($string, 7, 6));
-        $board_crs = parse_crs(substr($string, 13, 3));
-        $alight_crs = parse_crs(substr($string, 16, 3));
+        $uid = parse_train_uid(substr($leg_string, 7, 6));
+        $board_crs = parse_crs(substr($leg_string, 13, 3));
+        $alight_crs = parse_crs(substr($leg_string, 16, 3));
 
 
-        $legs[] = new TrainLeg($date, $uid, $board_crs, $alight_crs);
-    }
-    return $legs;
+        return new TrainLeg($date, $uid, $board_crs, $alight_crs);
+}
+
+function parse_legs(array $leg_strings) {
+    # Parses a legs parameter into an array of Legs.
+    return array_map('parse_leg', $leg_strings);
 }

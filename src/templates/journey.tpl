@@ -22,6 +22,15 @@
                 {/for}
             </tr>
             {foreach $legs as $leg}
+            <tr class="add">
+                <td colspan="12">
+                    <form action="../search.php">
+                        <input type="hidden" name="j" value="{$journey_string}">
+                        <input type="hidden" name="pos" value="{$leg@index}">
+                        <input type="submit" value="Add">
+                    </form>
+                </td>
+            </tr>
             <tr class="leg">
                 {if !$leg}
                 <td class="unknown" colspan="12">Unknown (failed to get status)</td>
@@ -38,6 +47,15 @@
                 {/if}
             </tr>
             {/foreach}
+            <tr class="add">
+                <td colspan="12">
+                    <form action="../search.php">
+                        <input type="hidden" name="j" value="{$journey_string}">
+                        <input type="hidden" name="pos" value="{$legs|count}">
+                        <input type="submit" value="Add">
+                    </form>
+                </td>
+            </tr>
         </table>
         {include file='footer.tpl'}
     </body>

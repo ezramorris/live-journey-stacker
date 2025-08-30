@@ -6,7 +6,9 @@ require_once('../lib/status.php');
 require_once('../lib/journey_model.php');
 
 # Validate GET params & set vars.
-$legs = parse_legs($_GET['j']);
+$journey_string = $_GET['j'];
+$leg_strings = split_journey($journey_string);
+$legs = parse_legs($leg_strings);
 $journey = new Journey($legs);
 
 $leg_statuses = array_map(
@@ -15,4 +17,5 @@ $leg_statuses = array_map(
 );
 
 $smarty->assign('legs', $leg_statuses);
+$smarty->assign('journey_string', $journey_string);
 $smarty->display('journey.tpl');

@@ -4,7 +4,9 @@
         <title>Live Journey Stacker</title>
     </head>
     <body>
-        <form action="journey/create.php" method="get">
+        <form action="journey/add_leg.php" method="get">
+            <input type="hidden" name="j" value="{$journey_string}">
+            <input type="hidden" name="pos" value="{$position}">
             <h2>Enter first leg:</h2>
             <div><label for="date">Date: </label><input type="date" name="date" id="date"></div>
             <div><label for="uid">UID: 
