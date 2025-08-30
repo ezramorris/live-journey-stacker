@@ -10,7 +10,7 @@
                 <th colspan="5">Boarding</th>
                 <th colspan="5">Alighting</th>
                 <th class="service-info" rowspan="2">Service</th>
-                <th class="link" rowspan="2">Link</th>
+                <th class="link" rowspan="2">Info</th>
             </tr>
             <tr class="detail-header">
                 {for $i=0 to 1}
@@ -43,7 +43,7 @@
                 <td class="platform">{$status->platform}</td>
                 {/foreach}
                 <td class="service-info">{$leg->toc} to {$leg->destination_name}</td>
-                <td class="link"><a href="{$leg->url}">View</a></td>
+                <td class="link"><a href="{$leg->url}"><abbr title="Realtime Trains">RTT</abbr></a></td>
                 {/if}
             </tr>
             {/foreach}
