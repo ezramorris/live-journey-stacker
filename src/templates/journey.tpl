@@ -22,7 +22,10 @@
                 {/for}
             </tr>
             {foreach $legs as $leg}
-            <tr class="leg train-leg">
+            <tr class="leg">
+                {if !$leg}
+                <td class="unknown" colspan="12">Unknown (failed to get status)</td>
+                {else}
                 {foreach [$leg->boarding_stop_status, $leg->alighting_stop_status] as $status}
                 <td class="stop">{$status->stop_name}</td>
                 <td class="time">{$status->scheduled_time|date_format:"%H%M" ?? ""}</td>
@@ -32,6 +35,7 @@
                 {/foreach}
                 <td class="service-info">{$leg->toc} to {$leg->destination_name}</td>
                 <td class="link"><a href="{$leg->url}">View</a></td>
+                {/if}
             </tr>
             {/foreach}
         </table>

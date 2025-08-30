@@ -181,7 +181,21 @@ function get_train_leg_status(TrainLeg $leg) {
     $response = curl_exec($ch);
     curl_close($ch);
 
+    if ($response === false) {
+        error_log('failed to get response from RTT');
+        return null;
+    }
+    $info = curl_getinfo($ch);
+    if ($info['http_code'] != 200) {
+        error_log('received error code '.$info['http_code'].' from RTT');
+        return null;
+    }
+
     $data = json_decode($response, true);
+    if (array_key_exists('error', $data)) {
+        error_log('received error from RTT: '.$data['error']);
+        return null;
+    }
 
     return TrainLegStatus::parse($leg->date, $data, $leg->boarding_crs, $leg->alighting_crs);
 }
