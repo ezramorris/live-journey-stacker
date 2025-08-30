@@ -19,7 +19,7 @@ jobs:
 
     # Composer container runs as root, so need to chown.
     - name: chown vendor directory
-      run: sudo chown $USER:$USER src/vendor
+      run: sudo chown -R $USER:$USER src/vendor
 
     - name: Delete un-needed files
       run: >
