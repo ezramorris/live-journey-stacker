@@ -2,7 +2,7 @@
 
 # Setup code for all modules.
 
-require_once(__DIR__.'/smarty/libs/Smarty.class.php');
+require_once(__DIR__.'/../vendor/autoload.php');
 
 use Smarty\Smarty;
 

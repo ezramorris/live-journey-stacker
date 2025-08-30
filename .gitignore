@@ -1,6 +1,9 @@
 # Ignore credentials file.
 creds.php
 
+# Composer
+/src/vendor
+
 # Smarty
 /src/templates_c
 /src/cache

@@ -1,4 +1,13 @@
 services:
+  composer_update:
+    image: composer:2.8
+    user: ${MY_UID}:${MY_GID}
+    volumes:
+      - type: bind
+        source: ./src
+        target: /app
+    command: composer install
+
   php:
     image: php:8.3-apache
     environment:
@@ -9,3 +18,7 @@ services:
         target: /var/www/html
     ports:
       - "8000:80"
+    depends_on:
+      composer_update:
+        condition: service_completed_successfully
+    restart: unless-stopped
