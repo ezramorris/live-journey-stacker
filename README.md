@@ -32,8 +32,13 @@ information all in one place.
 
 ## Current status ##
 
-Not usable in current state. Currently simply gets an example journey and dumps
-relevant data out to a web page.
+Has the basic ability to create journeys, but has no search capability.
+
+To add a journey leg, the following are required from RealTimeTrains:
+* Service UID: found in URL of the service on RTT. 6 digit code after `gb-nr:`
+  e.g. `A12345`.
+* Date: needs to match the date shown in RTT URL. This may be different to
+  what you might expect for trains around midnight.
 
 Currently not hosted on the Internet.
 
@@ -43,9 +48,9 @@ Current code can be run with Docker Compose:
 2.  Obtain a RealTimeTrains API key from https://api.rtt.io/
 3.  Clone the repo and run `git submodule update --init` in the repo root to
     pull dependencies.
-4.  In the `src` folder, copy `creds_template.php` to `creds.php`, then add your
-    API credentials to the parameters.
-5.  Start Docker Compose by simply running `docker compose up` in the root repo 
+4.  In the `src/config` folder, copy `creds_template.php` to `creds.php`, then add 
+    your API credentials to the parameters.
+5.  Start Docker Compose by running `docker compose up` in the root repo 
     directory, then visiting http://localhost:8000.
 
 ## Roadmap ##
