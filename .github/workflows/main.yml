@@ -37,7 +37,9 @@ jobs:
     - name: Set known hosts
       env:
         KNOWN_HOSTS: ${{secrets.known_hosts}}
-      run: echo "$KNOWN_HOSTS" > ~/.ssh/known_hosts
+      run: |
+        mkdir -p ~/.ssh &&
+        echo "$KNOWN_HOSTS" > ~/.ssh/known_hosts
 
     - name: Upload
       env:
