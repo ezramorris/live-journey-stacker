@@ -77,9 +77,8 @@ where smaller devices are typically used and Internet connection may be patchy
 or slow.
 
 Also, I would like to avoid cookies and other local storage as much as possible. 
-If I can avoid using it at all, I will. I hate cookie pop-ups as much as
-everyone else. If some kind of login is eventually required, then basic
-functional cookies will become necessary.
+Currently, no cookeis are used. If some kind of login is eventually required, then 
+basic functional cookies will become necessary.
 
 If the app becomes popular and needs special hosting of its own, ads and/or
 subscription may be necessary. Only "well behaved" ads will be used, e.g.
