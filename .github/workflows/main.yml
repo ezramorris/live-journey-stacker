@@ -17,4 +17,4 @@ jobs:
         submodules: true
 
     - name: Install SFTP
-      run: apt-get install -y sftp
+      run: sudo apt-get install -y sftp
