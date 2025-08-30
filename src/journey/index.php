@@ -10,7 +10,7 @@ $legs = parse_legs($_GET['j']);
 $journey = new Journey($legs);
 
 $leg_statuses = array_map(
-    fn(Leg $leg) => get_train_leg_status($leg),
+    'get_train_leg_status',
     $legs
 );
 
