@@ -11,9 +11,10 @@ $uid = parse_train_uid($_GET['uid']);
 $board = parse_crs($_GET['board']);
 $alight = parse_crs($_GET['alight']);
 
-$journey_string = join('-', ['T', $uid, $board, $alight]);
+# We use a 2-digit year, but only care about 2000s (so not using 'y').
+$date_string = substr($date->format('Ymd'), 2);
+$journey_string = join('', ['T', $date_string, $uid, $board, $alight]);
 $params = [
-    'd' => $date->format('Y-m-d'),
     'j' => $journey_string
 ];
 $query = http_build_query($params);
