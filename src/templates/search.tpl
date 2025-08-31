@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html>
     <head>
-        <title>Live Journey Stacker</title>
+        {include file='common_head.tpl'}
     </head>
     <body>
         <form action="journey/add_leg.php" method="get">

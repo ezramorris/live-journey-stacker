@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html>
     <head>
-        <title>Live Journey Stacker</title>
+        {include file='common_head.tpl'}
     </head>
     <body>
         <h1>Live Journey Stacker</h1>

@@ -12,6 +12,7 @@ services:
     image: php:8.3-apache
     environment:
       - DEBUG=true
+      - BASE_PATH=/
     volumes:
       - type: bind
         source: ./src
