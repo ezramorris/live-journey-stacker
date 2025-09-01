@@ -2,24 +2,25 @@
 <html>
     <head>
         {include file='common_head.tpl'}
+        <link rel="stylesheet" href="{$base_path}css/journey.css">
     </head>
     <body>
         <h1>Live Journey Stacker</h1>
         <table class="leg-table">
             <tr class="top-level-header">
-                <th colspan="5">Boarding</th>
-                <th colspan="5">Alighting</th>
+                <th class="boarding" colspan="5">Boarding</th>
+                <th class="alighting" colspan="5">Alighting</th>
                 <th class="service-info" rowspan="2">Service</th>
                 <th class="link" rowspan="2">Info</th>
             </tr>
             <tr class="detail-header">
-                {for $i=0 to 1}
-                <th class="stop">Station</th>
-                <th class="time"><abbr title="Scheduled time">Sched</abbr></th>
-                <th class="time"><abbr title="Real-time">RT</abbr></th>
-                <th class="delay">Delay</th>
-                <th class="platform"><abbr title="Platform">Plat</abbr></th>
-                {/for}
+                {foreach ['boarding', 'alighting'] as $class}
+                <th class="{$class} stop">Station</th>
+                <th class="{$class} time"><abbr title="Scheduled time">Sched</abbr></th>
+                <th class="{$class} time"><abbr title="Real-time">RT</abbr></th>
+                <th class="{$class} delay">Delay</th>
+                <th class="{$class} platform"><abbr title="Platform">Plat</abbr></th>
+                {/foreach}
             </tr>
             {foreach $legs as $leg}
             <tr class="add">

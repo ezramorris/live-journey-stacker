@@ -1,0 +1,13 @@
+.leg-table tr {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    text-align: left;
+}
+
+.service-info {
+    grid-column: span 4;
+}
+
+tr.top-level-header, th.alighting {
+    display: none;
+}
