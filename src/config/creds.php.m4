@@ -1,0 +1,4 @@
+<?php
+
+define('RTT_USERNAME', 'RTT_USERNAME_VALUE');
+define('RTT_PASSWORD', 'RTT_PASSWORD_VALUE');

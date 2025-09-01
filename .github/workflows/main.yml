@@ -22,18 +22,38 @@ jobs:
     - name: chown vendor directory
       run: sudo chown -R $USER:$USER src/vendor
 
+    - name: Template config files
+      env:
+        LOGFILE: ${{secrets.logpath}}
+        RTT_USER: ${{secrets.rtt_user}}
+        RTT_PASS: ${{secrets.rtt_pass}}
+      run: |
+        m4 --prefix-builtins \
+          --define=RTT_USERNAME_VALUE="$RTT_USER" \
+          --define=RTT_PASSWORD_VALUE="$RTT_PASS" \
+          src/config/creds.php.m4 > src/config/creds.php
+        m4 --prefix-builtins --define=LOGPATH="$LOGPATH" src/php.ini.m4 > src/php.ini
+
     - name: Delete un-needed files
-      run: >
-        rm -rf
-        src/composer.*
-        src/vendor/*/*/{composer.json,LICENSE,*.md}
-        src/vendor/smarty/smarty/{changelog,demo,docs,Makefile,mkdocs.yml,*.sh,TODO.txt}
+      run: |
+        shopt -s globstar
+        rm -rf \
+          src/**/*.m4 \
+          src/composer.* \
+          src/vendor/*/*/{composer.json,LICENSE,*.md} \
+          src/vendor/smarty/smarty/{changelog,demo,docs,Makefile,mkdocs.yml,*.sh,TODO.txt}
 
     - name: Install tools
-      # We remove some un-needed DPKG triggers to speed up install process.
+      # We only include bare minimum repos to speet up apt-get update.
+      # We remove some un-needed DPKG triggers to speed up apt-get install.
       run: |
-        sudo apt-get update && 
-        sudo sed -i -e '/man-db/ d' -e '/icon-theme/ d' /var/lib/dpkg/triggers/File &&
+        set -e
+        sudo rm -f /etc/apt/sources.list /etc/apt/sources.list.d/*.list
+        for repo in jammy{,-updates,-security}; do
+          echo deb http://archive.ubuntu.com/ubuntu/ "$repo" main | tee -a /etc/apt/sources.list
+        done
+        sudo apt-get update
+        sudo sed -i -e '/man-db/ d' -e '/icon-theme/ d' /var/lib/dpkg/triggers/File
         sudo apt-get install -y lftp
 
     - name: Set known hosts

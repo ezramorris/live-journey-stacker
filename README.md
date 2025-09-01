@@ -49,7 +49,7 @@ Current code can be run with Docker Compose:
 3.  Clone the repo.
 4.  In `.env`, update `MY_UID` to the output of `id -u` and `MY_GID` to the
     output of `id -g`.
-5.  In the `src/config` folder, copy `creds_template.php` to `creds.php`, then add 
+5.  In the `src/config` folder, copy `creds.php.m4` to `creds.php`, then add 
     your API credentials to the parameters.
 6.  Start Docker Compose by running `docker compose up` in the root repo 
     directory, then visiting http://localhost:8000.
