@@ -30,8 +30,10 @@ jobs:
         src/vendor/smarty/smarty/{changelog,demo,docs,Makefile,mkdocs.yml,*.sh,TODO.txt}
 
     - name: Install tools
+      # We remove some un-needed DPKG triggers to speed up install process.
       run: |
         sudo apt-get update && 
+        sudo sed -i -e '/man-db/ d' -e '/icon-theme/ d' /var/lib/dpkg/triggers/File &&
         sudo apt-get install -y lftp
 
     - name: Set known hosts
