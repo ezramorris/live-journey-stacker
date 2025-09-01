@@ -8,7 +8,7 @@ require_once('../lib/input.php');
 
 $journey_string = $_GET['j'];
 $leg_strings = split_journey($journey_string);
-$position = parse_int(value: $_GET['pos'], max: count($leg_strings));
+$position = parse_int(value: $_GET['pos'], min:0, max: count($leg_strings));
 
 $date = parse_date($_GET['date']);
 $uid = parse_train_uid($_GET['uid']);
