@@ -178,6 +178,7 @@ function get_train_leg_status(TrainLeg $leg) {
         'Authorization: Basic ' . base64_encode(RTT_USERNAME . ':' . RTT_PASSWORD),
     ]);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 1);
     $response = curl_exec($ch);
     curl_close($ch);
 
