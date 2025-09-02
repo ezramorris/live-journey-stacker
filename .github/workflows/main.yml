@@ -50,7 +50,7 @@ jobs:
         set -e
         sudo rm -f /etc/apt/sources.list /etc/apt/sources.list.d/*.list
         for repo in jammy{,-updates,-security}; do
-          echo deb http://archive.ubuntu.com/ubuntu/ "$repo" main | tee -a /etc/apt/sources.list
+          echo deb http://archive.ubuntu.com/ubuntu/ "$repo" main | sudo tee -a /etc/apt/sources.list
         done
         sudo apt-get update
         sudo sed -i -e '/man-db/ d' -e '/icon-theme/ d' /var/lib/dpkg/triggers/File
