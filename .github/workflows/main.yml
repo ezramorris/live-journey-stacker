@@ -15,7 +15,7 @@ jobs:
 
     - name: Install Composer packages
       run: |
-        docker run --rm --volume ./src:/app --user "$(id -u)" composer:2.8 composer install
+        docker run --rm --volume ./src:/app --user "$(id -u)" composer:2.8 composer install --no-dev
 
     - name: Template config files
       env:
