@@ -1,4 +1,31 @@
+html {
+    height: 100%;
+}
+
 body {
+    /* Sticky footer. */
+    /* https://developer.mozilla.org/en-US/docs/Web/CSS/Layout_cookbook/Sticky_footers */
+    min-height: 100%;
+    display: grid;
+    grid-template-rows: 1fr auto;
+
+    margin: 0;
     font-family: sans-serif;
-    font-size: 90%;
+}
+
+main, footer {
+    padding: 0.5em;
+}
+
+footer {
+    font-size: 65%;
+    background-color: gainsboro;
+}
+
+h1 {
+    font-size: 175%;
+}
+
+.copyright p {
+    margin: 0;
 }
