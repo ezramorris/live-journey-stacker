@@ -18,8 +18,8 @@
                 <th class="{$class} stop">Station</th>
                 <th class="{$class} time"><abbr title="Scheduled time">Sched</abbr></th>
                 <th class="{$class} time"><abbr title="Real-time">RT</abbr></th>
-                <th class="{$class} delay">Delay</th>
-                <th class="{$class} platform"><abbr title="Platform">Plat</abbr></th>
+                <th class="{$class} delay"><abbr title="Delay">Dly</abbr></th>
+                <th class="{$class} platform"><abbr title="Platform">P</abbr></th>
                 {/foreach}
             </tr>
             {foreach $legs as $leg}
@@ -28,7 +28,7 @@
                     <form action="../search.php">
                         <input type="hidden" name="j" value="{$journey_string}">
                         <input type="hidden" name="pos" value="{$leg@index}">
-                        <input type="submit" value="Add">
+                        <input type="submit" value="Add leg" class="add-button">
                     </form>
                 </td>
             </tr>
@@ -53,7 +53,7 @@
                     <form action="../search.php">
                         <input type="hidden" name="j" value="{$journey_string}">
                         <input type="hidden" name="pos" value="{$legs|count}">
-                        <input type="submit" value="Add">
+                        <input type="submit" value="Add leg" class="add-button">
                     </form>
                 </td>
             </tr>
