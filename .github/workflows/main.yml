@@ -14,13 +14,8 @@ jobs:
       uses: actions/checkout@v5
 
     - name: Install Composer packages
-      uses: docker://composer:2.8
-      with: 
-        args: env -C src composer install
-
-    # Composer container runs as root, so need to chown.
-    - name: chown vendor directory
-      run: sudo chown -R $USER:$USER src/vendor
+      run: |
+        docker run --rm --volume ./src:/app --user "$(id -u)" composer:2.8 composer install
 
     - name: Template config files
       env:
