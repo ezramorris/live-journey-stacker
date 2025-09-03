@@ -11,10 +11,7 @@ $leg_strings = split_journey($journey_string);
 $legs = parse_legs($leg_strings);
 $journey = new Journey($legs);
 
-$leg_statuses = array_map(
-    'get_train_leg_status',
-    $legs
-);
+$leg_statuses = get_train_leg_statuses($legs);
 
 $smarty->assign('legs', $leg_statuses);
 $smarty->assign('journey_string', $journey_string);

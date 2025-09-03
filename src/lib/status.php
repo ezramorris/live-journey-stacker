@@ -3,6 +3,7 @@
 require_once(__DIR__.'/../config/config.php');
 require_once(__DIR__.'/../config/creds.php');
 require_once(__DIR__.'/journey_model.php');
+require_once(__DIR__.'/requests.php');
 
 enum TrainStopPlatformStatus: string {
     # These are possible statuses relating to a train near a platform.
@@ -162,41 +163,67 @@ class TrainLegStatus {
 }
    
 
-function get_train_leg_status(TrainLeg $leg) {
+function get_train_leg_statuses(array $legs) {
     # Update status from RealTimeTrains.
-    # $serviceId is the RTT service ID (e.g. A12345).
-    # $date is the date the service is running (time portion not used).
+    # $legs is an array of TrainLegs.
+    # Returns an array of TrainLegStatuses.
 
-    $url = implode('/', [
-        RTT_BASE_URL, 
-        $leg->train_uid,
-        $leg->date->format('Y/m/d')
-    ]);
+    $handles = [];
+    foreach ($legs as $leg) {
+        $url = implode('/', [
+            RTT_BASE_URL, 
+            $leg->train_uid,
+            $leg->date->format('Y/m/d')
+        ]);
 
-    $ch = curl_init($url);
-    curl_setopt($ch, CURLOPT_HTTPHEADER, [
-        'Authorization: Basic ' . base64_encode(RTT_USERNAME . ':' . RTT_PASSWORD),
-    ]);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 1);
-    $response = curl_exec($ch);
-    curl_close($ch);
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Authorization: Basic ' . base64_encode(RTT_USERNAME . ':' . RTT_PASSWORD),
+        ]);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 1);
 
-    if ($response === false) {
-        error_log('failed to get response from RTT');
-        return null;
-    }
-    $info = curl_getinfo($ch);
-    if ($info['http_code'] != 200) {
-        error_log('received error code '.$info['http_code'].' from RTT');
-        return null;
+        $handles[] = $ch;
     }
 
-    $data = json_decode($response, true);
-    if (array_key_exists('error', $data)) {
-        error_log('received error from RTT: '.$data['error']);
-        return null;
+    $results = run_multiple_requests($handles);
+
+    $statuses = [];
+    $mit = new MultipleIterator();
+    $mit->attachIterator(new ArrayIterator($legs));
+    $mit->attachIterator(new ArrayIterator($results));
+    foreach ($mit as [$leg, ['info' => $info, 'response' => $response]]) {
+        $info = curl_getinfo($ch);
+        if ($info === false) {
+            error_log('failed to get response from RTT');
+            $statuses[] = null;
+            continue;
+        }
+        if ($info['http_code'] != 200) {
+            error_log('received error code '.$info['http_code'].' from RTT');
+            $statuses[] = null;
+            continue;
+        }
+
+        $data = json_decode($response, true);
+        if (is_null($data)) {
+            error_log('failed to decode RTT response');
+            $statuses[] = null;
+            continue;
+        }
+        if (array_key_exists('error', $data)) {
+            error_log('received error from RTT: '.$data['error']);
+            $statuses[] = null;
+            continue;
+        }
+
+        $statuses[] = TrainLegStatus::parse(
+            $leg->date, 
+            $data, 
+            $leg->boarding_crs, 
+            $leg->alighting_crs
+        );
     }
 
-    return TrainLegStatus::parse($leg->date, $data, $leg->boarding_crs, $leg->alighting_crs);
+    return $statuses;
 }
