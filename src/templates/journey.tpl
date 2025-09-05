@@ -1,3 +1,10 @@
+{function stop_status}
+    <td class="{$class} stop">{$stop_status->stop_name ?? 'Unknown'}</td>
+    <td class="{$class} time">{$stop_status->scheduled_time->format('Hi') ?? ''}</td>
+    <td class="{$class} time">{$stop_status->realtime_time->format('Hi') ?? ''}</td>
+    <td class="{$class} delay">{$stop_status->delay_mins|string_format:"%+d" ?? ''}</td>
+    <td class="{$class} platform">{$stop_status->platform ?? ''}</td>
+{/function}
 <!DOCTYPE HTML>
 <html>
     <head>
@@ -48,14 +55,8 @@
                                 <span>View<</span>
                             </a>
                         </td>
-                        {foreach ['boarding'=>$leg->boarding_stop_status ?? null, 
-                            'alighting'=>$leg->alighting_stop_status ?? null] as $class=>$status}
-                        <td class="{$class} stop">{$status->stop_name ?? "Unknown"}</td>
-                        <td class="{$class} time">{$status->scheduled_time->format('Hi') ?? ""}</td>
-                        <td class="{$class} time">{$status->realtime_time->format('Hi') ?? ""}</td>
-                        <td class="{$class} delay">{$status->delay_mins|string_format:"%+d" ?? ""}</td>
-                        <td class="{$class} platform">{$status->platform ?? ""}</td>
-                        {/foreach}
+                        {stop_status class="boarding" stop_status=$leg->boarding_stop_status ?? null}
+                        {stop_status class="alighting" stop_status=$leg->alighting_stop_status ?? null}
                         {if $leg}
                         <td class="service-info">{$leg->toc} service to {$leg->destination_name}</td>
                         {else}

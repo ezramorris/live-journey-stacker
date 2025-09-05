@@ -107,8 +107,8 @@ class TrainLegStatus {
     public string $toc;
     public string $destination_name;
     public string $url;
-    public TrainStopStatus $boarding_stop_status;
-    public TrainStopStatus $alighting_stop_status;
+    public ?TrainStopStatus $boarding_stop_status;
+    public ?TrainStopStatus $alighting_stop_status;
 
     public static function parse(DateTimeImmutable $date, $service_data, $boarding_crs, $alighting_crs) {
         # Parse service data returned from RTT Pull API into a TrainLegStatusStatus and return it.
@@ -153,9 +153,18 @@ class TrainLegStatus {
         # This is to allow calculation of time "wrapping around" to next day.
         $date = parse_RTT_time($date, $service_data['locations'][0]['gbttBookedDeparture']);
 
-        # Parse boarding station info.
-        $status->boarding_stop_status = TrainStopStatus::parse($date, $boarding_data, FALSE);
-        $status->alighting_stop_status = TrainStopStatus::parse($date, $alighting_data, TRUE);
+        if ($boarding_data) {
+            $status->boarding_stop_status = TrainStopStatus::parse($date, $boarding_data, FALSE);
+        } else {
+            error_log("failed to find boarding station $boarding_crs in RTT data");
+            $status->boarding_stop_status = null;
+        }
+        if ($alighting_data) {
+            $status->alighting_stop_status = TrainStopStatus::parse($date, $alighting_data, TRUE);
+        } else {
+            error_log("failed to find alighting station $alighting_crs in RTT data");
+            $status->alighting_stop_status = null;
+        }
 
         return $status;
     }
