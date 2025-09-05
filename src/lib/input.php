@@ -3,7 +3,8 @@
 # Functions for validating and parsing user input.
 # Each of these will return parsed value, or return 400 and exit execution on failure.
 
-require_once(__DIR__ . '/journey_model.php');
+require_once(__DIR__.'/../config/config.php');
+require_once(__DIR__.'/journey_model.php');
 
 define('TRAIN_CRS_REGEX', '[A-Z]{3}');
 define('TRAIN_UID_REGEX', '[A-Z0-9]{6}');
@@ -90,7 +91,9 @@ function parse_leg(string $leg_string) {
         }
 
         $date_str = substr($leg_string, 1, 6);
-        $date = DateTimeImmutable::createFromFormat('Ymd', '20'.$date_str) or die_with_400('invalid date');
+        $date = DateTimeImmutable::createFromFormat(
+            'Ymd', '20'.$date_str, TIMEZONE
+        ) or die_with_400('invalid date');
 
         $uid = parse_train_uid(substr($leg_string, 7, 6));
         $board_crs = parse_crs(substr($leg_string, 13, 3));

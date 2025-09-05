@@ -51,8 +51,8 @@
                         {foreach ['boarding'=>$leg->boarding_stop_status ?? null, 
                             'alighting'=>$leg->alighting_stop_status ?? null] as $class=>$status}
                         <td class="{$class} stop">{$status->stop_name ?? "Unknown"}</td>
-                        <td class="{$class} time">{$status->scheduled_time|date_format:"%H%M" ?? ""}</td>
-                        <td class="{$class} time">{$status->realtime_time|date_format:"%H%M" ?? ""}</td>
+                        <td class="{$class} time">{$status->scheduled_time->format('Hi') ?? ""}</td>
+                        <td class="{$class} time">{$status->realtime_time->format('Hi') ?? ""}</td>
                         <td class="{$class} delay">{$status->delay_mins|string_format:"%+d" ?? ""}</td>
                         <td class="{$class} platform">{$status->platform ?? ""}</td>
                         {/foreach}

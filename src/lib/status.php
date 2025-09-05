@@ -26,8 +26,7 @@ function parse_RTT_time(DateTimeImmutable $base_datetime, string $rtt_time_str) 
     $hour = (int)substr($rtt_time_str, 0, 2);
     $min = (int)substr($rtt_time_str, 2, 2);
 
-    # RTT API uses UTC times, so switch to UTC when setting times.
-    $dt = $base_datetime->setTimezone(new DateTimeZone('UTC'))->setTime($hour, $min)->setTimezone(TIMEZONE);
+    $dt = $base_datetime->setTime($hour, $min);
 
     # If it's less than where we started, add a day, as the time has wrapped.
     # e.g. gone from 23:59 -> 00:00.
@@ -105,7 +104,7 @@ class TrainLegStatus {
     # Holds info & status of a train leg.
 
     public DateTimeImmutable $date;
-    public ?string $toc;
+    public string $toc;
     public string $destination_name;
     public string $url;
     public TrainStopStatus $boarding_stop_status;
@@ -121,7 +120,7 @@ class TrainLegStatus {
         $status->date = $date;
 
         # Parse TOC.
-        $status->toc = $service_data['atocName'] ?? NULL;
+        $status->toc = $service_data['atocName'] ?? 'Unknown';
 
         # Parse destination name.
         # Normally this would just be one but sometimes can be more!
