@@ -52,7 +52,7 @@
                         </td>
                         <td class="actions view">
                             <a class="view-button" href="{$leg->url}" title="View on Realtime Trains">
-                                <span>View<</span>
+                                <span>View</span>
                             </a>
                         </td>
                         {stop_status class="boarding" stop_status=$leg->boarding_stop_status ?? null}
