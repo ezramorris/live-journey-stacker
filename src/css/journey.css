@@ -150,7 +150,8 @@ td.service-info {
 
     .top-level-header .boarding, 
     .top-level-header .alighting {
-        grid-column: span 4;
+        grid-column: span 5;
+        border-bottom: 1px solid slategray;
     }
 
     th.service-info {
