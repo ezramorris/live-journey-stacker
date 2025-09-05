@@ -18,7 +18,7 @@
 }
 
 .leg-table tbody tr {
-    grid-template-rows: repeat(4, max-content);
+    grid-template-rows: repeat(5, max-content);
 }
 
 .leg-table th {
@@ -67,6 +67,14 @@ td.actions.add::before, td.actions.add::after {
     font-size: 90%;
     margin: 0;
     padding: 0;
+}
+
+.leg::before {
+    content: '⮟';
+    grid-column: 1 / -1;
+    grid-row: 3;
+    margin-left: 1em;
+    line-height: 1;
 }
 
 td.service-info {
@@ -132,7 +140,7 @@ td.service-info {
 
 @media (min-width: 40em) {
     .leg-table {
-        grid-template-columns: 1fr repeat(4, max-content) 1fr repeat(5, max-content);
+        grid-template-columns: 1fr repeat(5, max-content) 1fr repeat(5, max-content);
     }
 
     tr.top-level-header, 
@@ -157,5 +165,19 @@ td.service-info {
         padding-top: 0;
         /* Delete button width (2em), padding (0.3em) & border (1px) + gap (0.3em). */
         padding-left: calc(2.6em + 1px);
+    }
+
+    .leg::before {
+        content: '➡';
+        font-size: 150%;
+        grid-column: 6;
+        grid-row: 2;
+        margin: 0;
+    }
+
+    .leg-table thead tr::before {
+        content: '';
+        grid-column: 6;
+        grid-row: 1;
     }
 }
