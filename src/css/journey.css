@@ -13,6 +13,8 @@
     display: grid;
     grid-template-columns: subgrid;
     align-items: center;
+    margin: 0;
+    padding: 0;
 }
 
 .leg-table tbody tr {
@@ -39,20 +41,18 @@ td.actions.delete,
 td.actions.view {
     grid-column: -1;
     grid-row: 2 / -1;
-    align-self: normal;
+    padding-left: 0.3em;
+    border-left: 1px solid;
 }
 
 td.actions.delete {
-    margin-top: -0.75em;
-    margin-bottom: -0.75em;
-    padding-left: 0.3em;
-    border-left: 1px solid slategrey;
+    padding-bottom: calc(2.3em + 1px);
+    border-color: slategrey;
 }
 
 td.actions.view {
-    margin-top: 1.75em;
-    /* Take into account td.delete border. */
-    padding-left: calc(0.3em + 1px);
+    padding-top: calc(2.3em + 1px);
+    border-color: transparent;
 }
 
 td.actions.add::before, td.actions.add::after {
@@ -64,6 +64,8 @@ td.actions.add::before, td.actions.add::after {
 
 .leg-table td {
     font-size: 90%;
+    margin: 0;
+    padding: 0;
 }
 
 td.service-info {
@@ -72,7 +74,6 @@ td.service-info {
 }
 
 .stop {
-    grid-column: 1;
     text-align: left;
 }
 
@@ -126,4 +127,34 @@ td.service-info {
 .view-button::after {
     content: '\1F441';
     font-size: 120%;
+}
+
+@media (min-width: 600px) {
+    .leg-table {
+        grid-template-columns: 1fr repeat(4, max-content) 1fr repeat(5, max-content);
+    }
+
+    tr.top-level-header, 
+    th.alighting {
+        display: inherit;
+    }
+
+    .top-level-header .boarding, 
+    .top-level-header .alighting {
+        grid-column: span 4;
+    }
+
+    th.service-info {
+        display: none;
+    }
+
+    td.actions.delete {
+        padding-bottom: 0;
+    }
+
+    td.actions.view {
+        padding-top: 0;
+        /* Delete button width (2em), padding (0.3em) & border (1px) + gap (0.3em). */
+        padding-left: calc(2.6em + 1px);
+    }
 }
