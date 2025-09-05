@@ -3,7 +3,7 @@
     display: grid;
     grid-template-columns: 1fr repeat(5, max-content);
     grid-auto-flow: dense;
-    column-gap: 0.2em;
+    column-gap: 0.3em;
 }
 
 .leg-table thead, 
@@ -43,7 +43,7 @@ td.actions.view {
 td.actions.delete {
     margin-top: -0.75em;
     margin-bottom: -0.75em;
-    padding-left: 0.2em;
+    padding-left: 0.3em;
     border-left: 1px solid slategrey;
 }
 
