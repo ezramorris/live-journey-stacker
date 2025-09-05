@@ -130,7 +130,7 @@ td.service-info {
     font-size: 120%;
 }
 
-@media (min-width: 600px) {
+@media (min-width: 40em) {
     .leg-table {
         grid-template-columns: 1fr repeat(4, max-content) 1fr repeat(5, max-content);
     }
