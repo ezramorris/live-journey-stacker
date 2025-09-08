@@ -9,7 +9,7 @@
 <html>
     <head>
         {include file='common_head.tpl'}
-        <link rel="stylesheet" href="{$base_path}css/journey.css">
+        {* <link rel="stylesheet" href="{$base_path}css/journey.css"> *}
     </head>
     <body>
         <main>
@@ -17,15 +17,12 @@
             <table class="leg-table">
                 <thead>
                     <tr class="top-level-header">
-                        <th class="actions" colspan="3">Actions</th>
                         <th class="boarding" colspan="5">Boarding</th>
                         <th class="alighting" colspan="5">Alighting</th>
                         <th class="service-info" rowspan="2">Service</th>
+                        <th class="actions" rowspan="2">Actions</th>
                     </tr>
                     <tr class="detail-header">
-                        <th class="actions add">Add</th>
-                        <th class="actions delete">Delete</th>
-                        <th class="actions view">View</th>
                         {foreach ['boarding', 'alighting'] as $class}
                         <th class="{$class} stop">Station</th>
                         <th class="{$class} time"><abbr title="Scheduled time">Sched</abbr></th>
@@ -38,23 +35,6 @@
                 <tbody>
                     {foreach $legs as $leg}
                     <tr class="leg">
-                        <td class="actions add">
-                            <a class="add-button" href="../search.php?j={$journey_string}&pos={$leg@index}" 
-                                    title="Add leg before">
-                                <span>Add leg before</span>
-                            </a>
-                        </td>
-                        <td class="actions delete">
-                            <a class="delete-button" href="delete_leg.php?j={$journey_string}&pos={$leg@index}"
-                                    title="Delete leg">
-                                <span>Delete</span>
-                            </a>
-                        </td>
-                        <td class="actions view">
-                            <a class="view-button" href="{$leg->url}" title="View on Realtime Trains">
-                                <span>View</span>
-                            </a>
-                        </td>
                         {stop_status class="boarding" stop_status=$leg->boarding_stop_status ?? null}
                         {stop_status class="alighting" stop_status=$leg->alighting_stop_status ?? null}
                         {if $leg}
@@ -62,18 +42,41 @@
                         {else}
                         <td class="service-info">Failed to get status</td>
                         {/if}
+                        <td class="actions"><ul>
+                            <li><a class="add-before" 
+                                    href="../search.php?j={$journey_string}&pos={$leg@index}" 
+                                    title="Add leg before">
+                                <span>Add leg before</span>
+                            </a></li>
+                            <li><a class="add-after" 
+                                    href="../search.php?j={$journey_string}&pos={$leg@index+1}" 
+                                    title="Add leg after">
+                                <span>Add leg after</span>
+                            </a></li>
+                            <li><a class="delete-button" 
+                                    href="delete_leg.php?j={$journey_string}&pos={$leg@index}"
+                                    title="Delete leg">
+                                <span>Delete</span>
+                            </a></li>
+                            <li><a class="view-button" href="{$leg->url}" title="View on Realtime Trains">
+                                    <span>View</span>
+                            </a></li>
+                        </ul></td>
                     </tr>
                     {/foreach}
                     <tr class="end-actions">
                         <td class="actions add" colspan="14">
-                            <a class="add-button" href="../search.php?j={$journey_string}&pos={$legs|count}" 
-                                    title="Add leg at end">
-                                <span>Add leg at end</span>
-                            </a>
                         </td>
                     </tr>
                 </tbody>
             </table>
+            <div class="end-actions"><ul>
+                <li><a class="add-button" 
+                        href="../search.php?j={$journey_string}&pos={$legs|count}" 
+                        title="Add leg at end">
+                    <span>Add leg at end</span>
+                </li></a>
+            </ul></div>
         </main>
         {include file='footer.tpl'}
     </body>
