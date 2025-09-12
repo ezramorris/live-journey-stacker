@@ -9,7 +9,7 @@
 <html>
     <head>
         {include file='common_head.tpl'}
-        {* <link rel="stylesheet" href="{$base_path}css/journey.css"> *}
+        <link rel="stylesheet" href="{$base_path}css/journey.css">
     </head>
     <body>
         <main>
@@ -42,41 +42,42 @@
                         {else}
                         <td class="service-info">Failed to get status</td>
                         {/if}
-                        <td class="actions"><ul>
+                        <td class="actions"><span class="material-symbols-outlined">menu</span><menu>
                             <li><a class="add-before" 
                                     href="../search.php?j={$journey_string}&pos={$leg@index}" 
                                     title="Add leg before">
+                                <span class="material-symbols-outlined">add_row_above</span>
                                 <span>Add leg before</span>
                             </a></li>
                             <li><a class="add-after" 
                                     href="../search.php?j={$journey_string}&pos={$leg@index+1}" 
                                     title="Add leg after">
+                                <span class="material-symbols-outlined">add_row_below</span>
                                 <span>Add leg after</span>
                             </a></li>
                             <li><a class="delete-button" 
                                     href="delete_leg.php?j={$journey_string}&pos={$leg@index}"
                                     title="Delete leg">
+                                <span class="material-symbols-outlined">delete</span>
                                 <span>Delete</span>
                             </a></li>
                             <li><a class="view-button" href="{$leg->url}" title="View on Realtime Trains">
-                                    <span>View</span>
+                                <span class="material-symbols-outlined">open_in_new</span>
+                                <span>View</span>
                             </a></li>
-                        </ul></td>
+                        </menu></td>
                     </tr>
                     {/foreach}
-                    <tr class="end-actions">
-                        <td class="actions add" colspan="14">
-                        </td>
-                    </tr>
                 </tbody>
             </table>
-            <div class="end-actions"><ul>
+            <div class="end-actions"><menu>
                 <li><a class="add-button" 
                         href="../search.php?j={$journey_string}&pos={$legs|count}" 
                         title="Add leg at end">
+                    <span class="material-symbols-outlined">add</span>
                     <span>Add leg at end</span>
                 </li></a>
-            </ul></div>
+            </menu></div>
         </main>
         {include file='footer.tpl'}
     </body>

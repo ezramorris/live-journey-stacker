@@ -17,8 +17,12 @@
     padding: 0;
 }
 
+.leg-table tr {
+    padding: 0.25em 0;    
+}
+
 .leg-table tbody tr {
-    grid-template-rows: repeat(5, max-content);
+    border-top: 1px solid var(--color-accent-2);
 }
 
 .leg-table th {
@@ -31,38 +35,6 @@ th.actions {
     display: none;
 }
 
-td.actions.add {
-    grid-column: 1 / -1;
-    margin: 0.3em 0;
-    display: flex;
-    flex-direction: row;
-}
-
-td.actions.delete,
-td.actions.view {
-    grid-column: -1;
-    grid-row: 2 / -1;
-    padding-left: 0.3em;
-    border-left: 1px solid;
-}
-
-td.actions.delete {
-    padding-bottom: calc(2.3em + 1px);
-    border-color: slategrey;
-}
-
-td.actions.view {
-    padding-top: calc(2.3em + 1px);
-    border-color: transparent;
-}
-
-td.actions.add::before, td.actions.add::after {
-    content: '';
-    flex: 1 1;
-    border-bottom: 2px solid slategrey;
-    margin: auto 0;
-}
-
 .leg-table td {
     font-size: 90%;
     margin: 0;
@@ -72,7 +44,7 @@ td.actions.add::before, td.actions.add::after {
 .leg::before {
     content: '⮟';
     grid-column: 1 / -1;
-    grid-row: 3;
+    grid-row: 2;
     margin-left: 1em;
     line-height: 1;
 }
@@ -80,6 +52,10 @@ td.actions.add::before, td.actions.add::after {
 td.service-info {
     grid-column: 1 / -2;
     font-size: 70%;
+}
+
+td.actions {
+    grid-row: 1 / span 4;
 }
 
 .stop {
@@ -94,48 +70,49 @@ td.service-info {
     text-align: right;
 }
 
-.add-button, 
-.delete-button,
-.view-button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    vertical-align: middle;
-    width: 2em;
-    height: 2em;
+/* Actions menu */
+td.actions {
+    position: relative;
+    cursor: pointer;
+}
+
+td.actions menu {
+    list-style: none;
+    margin: 0;
     padding: 0;
-    color: inherit;
-    font: inherit;
-    text-decoration: none;
-    background-color: ghostwhite;
-    border: 1px solid lightslategrey;
-    border-radius: 50%;
-}
-
-.add-button:active, 
-.delete-button:active,
-.view-button:active {
-    background-color: lightblue;
-}
-
-.add-button span, 
-.delete-button span,
-.view-button span {
     display: none;
 }
 
-.add-button::after {
-    content: '\2795';
+td.actions:hover menu {
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 10em;
+    background-color: var(--color-accent-1);
+    border: 1px solid var(--color-accent-2);
+    border-radius: 0.5em;
+    z-index: 1;
 }
 
-.delete-button::after {
-    content: '\1F5D1';
-    font-size: 120%;
+td.actions a {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: var(--color-foreground);
+    border: 1px solid var(--color-accent-4);
+    border-radius: 0.5em;
+    margin: 0.5em;
+    padding: 0.25em;
 }
 
-.view-button::after {
-    content: '\1F441';
-    font-size: 120%;
+td.actions a :not(:first-child) {
+    margin-left: 0.25em;
+}
+
+td.actions a:hover {
+    background-color: var(--color-accent-4);
+    color: var(--color-foreground-inverted);
 }
 
 @media (min-width: 40em) {

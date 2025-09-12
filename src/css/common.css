@@ -1,3 +1,28 @@
+/* https://m2.material.io/design/color/the-color-system.html#tools-for-picking-colors */
+/* Material 2014 Blue Grey */
+:root {
+    --color-background: #ECEFF1;
+    --color-accent-1: #CFD8DC;  /* Should be nearest to background */
+    --color-accent-2: #B0BEC5;
+    --color-accent-3: #455A64;
+    --color-accent-4: #263238;  /* Should be nearest to foreground */
+    --color-foreground: #000000;
+    --color-foreground-inverted: #FFFFFF;
+}
+
+/* Dark mode */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --color-background: #263238;
+        --color-accent-1: #455A64;  /* Should be nearest to background */
+        --color-accent-2: #B0BEC5;
+        --color-accent-3: #CFD8DC;
+        --color-accent-4: #ECEFF1;  /* Should be nearest to foreground */
+        --color-foreground: #FFFFFF;
+        --color-foreground-inverted: #000000;
+    }
+}
+
 html {
     height: 100%;
 }
@@ -12,15 +37,24 @@ body {
     max-width: 60em;
     margin: auto;
     font-family: sans-serif;
+    color: var(--color-foreground)
+}
+
+a {
+    color: var(--color-accent-4);
 }
 
 main, footer {
     padding: 0.5em;
 }
 
+main {
+    background-color: var(--color-background);
+}
+
 footer {
     font-size: 65%;
-    background-color: gainsboro;
+    background-color: var(--color-accent-1);
 }
 
 h1 {
