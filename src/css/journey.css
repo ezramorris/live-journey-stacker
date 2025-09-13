@@ -22,7 +22,7 @@
 }
 
 .leg-table tbody tr {
-    border-top: 1px solid var(--color-accent-2);
+    border-top: 1px solid var(--color-accent-1);
 }
 
 .leg-table th {
@@ -135,7 +135,7 @@ a.action:hover {
     .top-level-header .boarding, 
     .top-level-header .alighting {
         grid-column: span 5;
-        border-bottom: 1px solid slategray;
+        border-bottom: 1px solid var(--color-accent-1);
     }
 
     .top-level-header th,
