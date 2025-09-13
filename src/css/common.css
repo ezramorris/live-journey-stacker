@@ -36,7 +36,7 @@ body {
 
     max-width: 60em;
     margin: auto;
-    font-family: sans-serif;
+    font-family: 'Noto Sans', 'Roboto', 'Segoe UI', sans-serif;
     background-color: var(--color-accent-3);
     color: var(--color-foreground)
 }
