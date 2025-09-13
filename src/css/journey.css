@@ -3,7 +3,7 @@
     display: grid;
     grid-template-columns: 1fr repeat(5, max-content);
     grid-auto-flow: dense;
-    column-gap: 0.3em;
+    column-gap: 0.5em;
 }
 
 .leg-table thead, 
@@ -37,7 +37,6 @@ th.actions {
 
 .leg-table td {
     font-size: 90%;
-    margin: 0;
     padding: 0;
 }
 
@@ -122,9 +121,10 @@ a.action:hover {
     font-size: 90%;
 }
 
+/* Upscale to desktop. */
 @media (min-width: 40em) {
     .leg-table {
-        grid-template-columns: 1fr repeat(5, max-content) 1fr repeat(5, max-content);
+        grid-template-columns: 1fr repeat(4, max-content) 1fr repeat(5, max-content);
     }
 
     tr.top-level-header, 
@@ -138,31 +138,12 @@ a.action:hover {
         border-bottom: 1px solid slategray;
     }
 
+    .top-level-header th,
+    .platform {
+        margin-right: 0.5em;
+    }
+
     th.service-info {
         display: none;
-    }
-
-    td.actions.delete {
-        padding-bottom: 0;
-    }
-
-    td.actions.view {
-        padding-top: 0;
-        /* Delete button width (2em), padding (0.3em) & border (1px) + gap (0.3em). */
-        padding-left: calc(2.6em + 1px);
-    }
-
-    .leg::before {
-        content: '➡';
-        font-size: 150%;
-        grid-column: 6;
-        grid-row: 2;
-        margin: 0;
-    }
-
-    .leg-table thead tr::before {
-        content: '';
-        grid-column: 6;
-        grid-row: 1;
     }
 }
