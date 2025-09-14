@@ -201,7 +201,6 @@ function get_train_leg_statuses(array $legs) {
     $mit->attachIterator(new ArrayIterator($legs));
     $mit->attachIterator(new ArrayIterator($results));
     foreach ($mit as [$leg, ['info' => $info, 'response' => $response]]) {
-        $info = curl_getinfo($ch);
         if ($info === false) {
             error_log('failed to get response from RTT');
             $statuses[] = null;
