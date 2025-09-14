@@ -65,3 +65,30 @@ h1 {
 .copyright p {
     margin: 0;
 }
+
+
+/* Button styling
+   A "button" is expected to be a container (usually `a` or `button`) with 
+   1 or more elements inside (typically an icon and text) each in a span. */
+.button {
+    display: flex;
+    align-items: center;
+    font-family: inherit;
+    font-size: inherit;
+    color: inherit;
+    text-decoration: none;
+    cursor: pointer;
+    background-color: var(--color-accent-1);
+    border: 1px solid var(--color-accent-4);
+    border-radius: 0.5em;
+    padding: 0.25em 0.5em;
+}
+
+.button :not(:first-child) {
+    margin-left: 0.25em;
+}
+
+.button:hover {
+    background-color: var(--color-accent-4);
+    color: var(--color-foreground-inverted);
+}
