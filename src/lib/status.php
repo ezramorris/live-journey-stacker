@@ -4,6 +4,7 @@ require_once(__DIR__.'/../config/config.php');
 require_once(__DIR__.'/../config/creds.php');
 require_once(__DIR__.'/journey_model.php');
 require_once(__DIR__.'/requests.php');
+require_once(__DIR__.'/rtt.php');
 
 enum TrainStopPlatformStatus: string {
     # These are possible statuses relating to a train near a platform.
@@ -179,7 +180,8 @@ function get_train_leg_statuses(array $legs) {
     $handles = [];
     foreach ($legs as $leg) {
         $url = implode('/', [
-            RTT_BASE_URL, 
+            RTT_BASE_URL,
+            'service',
             $leg->train_uid,
             $leg->date->format('Y/m/d')
         ]);
@@ -201,25 +203,8 @@ function get_train_leg_statuses(array $legs) {
     $mit->attachIterator(new ArrayIterator($legs));
     $mit->attachIterator(new ArrayIterator($results));
     foreach ($mit as [$leg, ['info' => $info, 'response' => $response]]) {
-        if ($info === false) {
-            error_log('failed to get response from RTT');
-            $statuses[] = null;
-            continue;
-        }
-        if ($info['http_code'] != 200) {
-            error_log('received error code '.$info['http_code'].' from RTT');
-            $statuses[] = null;
-            continue;
-        }
-
-        $data = json_decode($response, true);
+        $data = parse_rtt_response($info, $response);
         if (is_null($data)) {
-            error_log('failed to decode RTT response');
-            $statuses[] = null;
-            continue;
-        }
-        if (array_key_exists('error', $data)) {
-            error_log('received error from RTT: '.$data['error']);
             $statuses[] = null;
             continue;
         }

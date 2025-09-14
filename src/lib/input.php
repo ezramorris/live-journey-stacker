@@ -58,6 +58,22 @@ function parse_date(string $date_string) {
     return $date;
 }
 
+function parse_date_time(string $date_string, string $time_string) {
+    $date = DateTimeImmutable::createFromFormat(
+        'Y-m-dH:i', 
+        $date_string . $time_string, 
+        TIMEZONE
+    );
+    if (!$date) {
+        die_with_400('invalid date');
+    }
+    $year = (int)($date->format('Y'));
+    if ($year < 2000 or $year > 2099) {
+        die_with_400('year out of range');
+    }
+    return $date;
+}
+
 function parse_int(string $value, ?int $min=null, ?int $max=null) {
     $options = [];
     if (!is_null($min)) {
