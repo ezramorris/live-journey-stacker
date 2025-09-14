@@ -54,6 +54,8 @@ Current code can be run with Docker Compose:
 6.  Start Docker Compose by running `docker compose up` in the root repo 
     directory, then visiting http://localhost:8000.
 
+To enable the debug console, set `DEBUG=true` in `.env`.
+
 ## Roadmap ##
 
 The first iteration will focus on UK mainline trains. This wil be published as a

@@ -17,7 +17,7 @@ $smarty->setEscapeHtml(true);
 # URL path where application is installed.
 $smarty->assign('base_path', $_ENV['BASE_PATH'] ?? '/ljs/');
 
-if (getenv('DEBUG')) {
+if (getenv('DEBUG') == 'true') {
     $smarty->setDebugging(true);
     $smarty->assign('request', $_REQUEST);
 }
