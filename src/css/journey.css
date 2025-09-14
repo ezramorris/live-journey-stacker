@@ -73,11 +73,11 @@ td.actions menu {
 }
 
 td.actions:hover menu {
-    display: block;
+    display: inline-block;
     position: absolute;
     top: 0;
     right: 0;
-    width: 10em;
+    width: max-content;
     background-color: var(--color-accent-1);
     border: 1px solid var(--color-accent-2);
     border-radius: 0.5em;
